@@ -197,10 +197,54 @@ public class Level {
 	//Your code goes here! 
 	//Please make sure you read the rubric/directions carefully and implement the solution recursively!
 	private void water(int col, int row, Map map, int fullness) {
-		
-	}
+		String imgFile = ""; 
 
+		if(fullness == 0) {
+		imgFile = "Falling_water";
+		}
+		if(fullness == 1){
+		imgFile = "Quarter_water";
+		}
+		if(fullness == 2){ 
+		imgFile = "Half_water";
+		}
+		if(fullness == 3){
+		imgFile = "Full_water";
+		}
 
+		Water w = new Water (col, row, tileSize, tileset.getImage(imgFile), this, fullness);
+		map.addTile(col, row, w);
+
+                       //check if we can go down
+				if(row+1 < map.getTiles()[0].length && !(map.getTiles()[col][row+1] instanceof Water) && !map.getTiles()[col][row +1].isSolid()){
+					 
+					if(row + 2 < map.getTiles()[0].length && (map.getTiles()[col][row+2] instanceof Water) && map.getTiles()[col][row +2].isSolid()) {
+						water(col, row+1, map, 3);
+					}
+					else {
+						water(col, row+1, map, 0);
+					}
+				}
+
+				else {
+                       //if we can’t go down go left and right.
+			//right
+					if(col+1 < map.getTiles().length && !(map.getTiles()[col+1][row] instanceof Water) && !map.getTiles()[col + 1][row].isSolid()) {
+						water(col+1, row, map, 2);
+					} 
+					else if (col+2 < map.getTiles().length && !(map.getTiles()[col+2][row] instanceof Water) && !map.getTiles()[col + 2][row].isSolid()){
+						water(col+2, row, map, 3);
+					}
+			//left
+					if(col-1 >= 0 && !(map.getTiles()[col-1][row] instanceof Water) && !map.getTiles()[col-1][row].isSolid()) {
+						water(col-1, row, map, 2);
+					}
+					else if (col-2 >= 0 && !(map.getTiles()[col-2][row] instanceof Water) && !map.getTiles()[col-2][row].isSolid()) {
+						water(col-1, row, map, 3);
+				}
+			}
+		}
+	
 
 	public void draw(Graphics g) {
 		g.translate((int) -camera.getX(), (int) -camera.getY());
@@ -273,4 +317,8 @@ public class Level {
 	public Player getPlayer() {
 		return player;
 	}
+
+
+
+
 }
