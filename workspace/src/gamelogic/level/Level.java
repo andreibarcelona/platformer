@@ -303,7 +303,7 @@ public class Level {
     // - The fullness value decreases appropriately as water spreads left/right.
 }
 
-	private void water(int col, int row, Map map, int fullness) {
+private void water(int col, int row, Map map, int fullness) {
 		String imgFile = ""; 
 
 		if(fullness == 0) {
